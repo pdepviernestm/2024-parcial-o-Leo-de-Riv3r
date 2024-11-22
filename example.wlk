@@ -33,4 +33,8 @@ class Evento {
 
 object intensamente{
   var property valorIntensidadElevada = 200
+
+  method cambiarIntensidadElevada(valor) {
+    valorIntensidadElevada = valor
+  }
 }

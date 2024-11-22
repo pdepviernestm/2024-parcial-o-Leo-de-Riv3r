@@ -2,6 +2,7 @@ import example.*
 
 class Emocion{
   var property intensidad
+  //no interesa saber los eventos vividos, solo la cantidad
   var eventosVividos = 0
 
   method puedeLiberarse()
@@ -54,7 +55,6 @@ class Alegria inherits Emocion {
 
 class Tristeza inherits Emocion {
   //se considera causa como una cadena de caracteres
-  const palabrotas = []
   var causa = "melancolia"
   override method puedeLiberarse() = self.tieneIntensidadElevada() && causa != "melancolia"
 
@@ -71,20 +71,20 @@ class Desagrado inherits Emocion {
 }
 
 class Temor inherits Desagrado {
-
 }
 
 class Ansiedad inherits Emocion {
-  //EXPLICAR POLIRFORMISO Y HERENCIA
   var nivelAnsiedad
-  //Como ansiedad hereda las variables y los mensajes de la clase emocion, no es necesario volver a definir las variables eventosVividos e intensidad
+  //Utilizando la herencia, las variables y los mensajes de la clase emocion forman parte de la clase ansiedad, pudiendo ser utilizadas
+  //en la interfaz 
   
   override method puedeLiberarse() = eventosVividos > intensidad && nivelAnsiedad > 100
 
   override method aplicarEfectos(evento) {
     nivelAnsiedad = 0
   }
-
-  //para que el evento pueda ser vivido por las personas, debe entender el mensaje puedeLiberarse y aplicarEfectos
-  //como van a ser diferentes para cada emocion, sera necesario redefinirlos.
+  //para que las personas puedan vivir un evento y tener consecuencias, es necesaro que cada una de las emociones
+  //conozca el mensaje vivirEvento, dentro de vivirEvento se utiliza los mensajes puedeLiberarse y liberarse
+  //aplicando polimorfismo, se logra que cada emocion tenga diferentes condiciones para poder liberarse
+  //y existan diferentes consecuencias al liberarse.
 }

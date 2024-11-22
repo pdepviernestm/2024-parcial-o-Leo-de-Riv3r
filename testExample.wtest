@@ -1,9 +1,21 @@
-import example.pepita
+import example.*
+import emociones.*
+describe "tests de item 6" {
+  //integrantes
+  const edgardo = new Persona(edad = 30, emociones = [new Furia(palabrotas = ["filhodaputa", "wdwdsd", ""]), new Desagrado(intensidad = 300, eventosVividos = 400)])
+  const robinho = new Persona(edad = 33, emociones = [new Alegria(intensidad = 40)])
+  const zacarias = new Persona(edad = 20, emociones = [new Temor(intensidad= 50), new Furia(palabrotas = ["shit"])])
+  const grupo = new Grupo(personas= [edgardo, robinho, zacarias])  
+  const jugarFulbo = new Evento(descripcion = "juegan furbo", impacto = 60)
+  test "edgardo no puede explotar emocionalmente" {
+    //luego de vivir el evento, edgardo no tendria que estar por explotar emocionlamente, ya que no conoce palabrotas con mas de 7 letras
+    grupo.vivirEvento(jugarFulbo)
+    assert.notThat(edgardo.puedeExplotarEmocionalmente())
+  }
 
-describe "group of tests for pepita" {
-
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  test "robinho cambia intensidad de emociones de 30 a 40 " {
+    grupo.vivirEvento(jugarFulbo)
+    assert.equals(40, robinho.intensidadEmociones())
   }
 
 }

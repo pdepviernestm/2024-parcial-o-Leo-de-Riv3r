@@ -8,13 +8,29 @@ class Persona {
     emociones.add(emocion)
   }
 
-  method explotaEmocionalmente() = emociones.all({emocion => emocion.puedeLiberarse()})
+  method puedeExplotarEmocionalmente() = emociones.all({emocion => emocion.puedeLiberarse()})
 
-  method vivirEvento(evento) {}
+  method vivirEvento(evento) {
+    emociones.forEach({emocion => emocion.vivirEvento(evento)})
+  }
+
+  //metodos creados para usar en los tests
+  method intensidadEmociones () = emociones.sum({emocion => emocion.intensidad()})
+}
+
+class Grupo {
+  const personas = []
+
+  method vivirEvento (evento) {
+    personas.forEach({persona => persona.vivirEvento(evento)})
+  }
 }
 
 class Evento {
-  var impacto
+  var property impacto
   var descripcion
+}
 
+object intensamente{
+  var property valorIntensidadElevada = 200
 }

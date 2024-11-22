@@ -1,10 +1,10 @@
-class Emocion{
-  var intensidad
-  var eventosVividos = 0
-  //debe salir de un objeto global (mundo de intensamente o algo asi)
-  var valorIntensidadElevada
+import example.*
 
-  method puedeLiberarse() {}
+class Emocion{
+  var property intensidad
+  var eventosVividos = 0
+
+  method puedeLiberarse()
   method liberarse(evento) {
     self.reducirIntensidad(evento.impacto())
     self.aplicarEfectos(evento)
@@ -19,9 +19,16 @@ class Emocion{
     intensidad = nuevaIntensidad
   }
 
-  method tieneIntensidadElevada() = intensidad > valorIntensidadElevada
+  method tieneIntensidadElevada() = intensidad > intensamente.valorIntensidadElevada()
 
   method vivioEventosPar() = eventosVividos % 2 == 0
+
+  method vivirEvento(evento) {
+    eventosVividos += 1
+    if(self.puedeLiberarse()) {
+      self.liberarse(evento)
+    }
+  }
 }
 
 class Furia inherits Emocion (intensidad = 100){
@@ -43,22 +50,15 @@ class Alegria inherits Emocion {
       intensidad *= (-1)
     }    
   }
-
-  method cambiarIntensidad(nuevaIntensidad) {
-    intensidad = nuevaIntensidad
-  }
 }
 
 class Tristeza inherits Emocion {
+  //se considera causa como una cadena de caracteres
   const palabrotas = []
   var causa = "melancolia"
-  override method puedeLiberarse() = self.tieneIntensidadElevada()
+  override method puedeLiberarse() = self.tieneIntensidadElevada() && causa != "melancolia"
 
   override method reducirIntensidad(cantidad) {
-  }
-
-  method cambiarIntensidad(nuevaIntensidad) {
-    intensidad = nuevaIntensidad
   }
 
   override method aplicarEfectos(evento) {
@@ -75,5 +75,16 @@ class Temor inherits Desagrado {
 }
 
 class Ansiedad inherits Emocion {
+  //EXPLICAR POLIRFORMISO Y HERENCIA
+  var nivelAnsiedad
+  //Como ansiedad hereda las variables y los mensajes de la clase emocion, no es necesario volver a definir las variables eventosVividos e intensidad
   
+  override method puedeLiberarse() = eventosVividos > intensidad && nivelAnsiedad > 100
+
+  override method aplicarEfectos(evento) {
+    nivelAnsiedad = 0
+  }
+
+  //para que el evento pueda ser vivido por las personas, debe entender el mensaje puedeLiberarse y aplicarEfectos
+  //como van a ser diferentes para cada emocion, sera necesario redefinirlos.
 }
